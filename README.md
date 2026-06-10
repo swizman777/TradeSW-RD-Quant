@@ -53,18 +53,22 @@ Outputs principaux :
 - `reports/equity_curve.png`
 - `reports/vol_pred_vs_realized.png`
 
-## Verdict (à remplir J+30)
+## Verdict (2026-06-10 — BOUCLÉ)
 
 | Métrique | Full 2019-2024 | 2019-2021 | 2022-2024 |
 |---|---|---|---|
-| Sharpe overlay | _TBD_ | _TBD_ | _TBD_ |
-| Sharpe B&H | _TBD_ | _TBD_ | _TBD_ |
-| Sharpe spread | _TBD_ | _TBD_ | _TBD_ |
-| Max DD overlay | _TBD_ | _TBD_ | _TBD_ |
-| Max DD B&H | _TBD_ | _TBD_ | _TBD_ |
-| RMSE vol | _TBD_ | _TBD_ | _TBD_ |
-| Hit rate vol | _TBD_ | _TBD_ | _TBD_ |
-| **4/4 ?** | _TBD_ | _TBD_ | _TBD_ |
+| Sharpe overlay | 0.745 | 1.113 | 0.500 |
+| Sharpe B&H | 0.564 | 0.740 | 0.411 |
+| Sharpe spread | +0.181 | +0.374 | +0.090 |
+| Max DD overlay | -0.152 | -0.113 | -0.152 |
+| Max DD B&H | -0.361 | -0.361 | -0.271 |
+| RMSE vol | 0.0638 | 0.0943 | 0.0290 |
+| Hit rate vol | 0.499 | 0.516 | 0.487 |
+| **4/4 ?** | 2/4 | 3/4 | 2/4 |
+
+**Final decision: `STOP_LEARNING` — voir `archives/phase1_verdict_2026-06-10.md`.**
+
+GARCH(1,1) validé comme **risk overlay** (DD ratio 0.42, réduction 58%) mais **pas générateur alpha** (Sharpe spread +0.18 < seuil +0.30). Phase 2 ACO **non lancée** (critère arrêt T3 contrat section 5). Pivot DCA T212 ETF en priorité. Budget consommé : 7h / 40h (82.5% économie).
 
 ## Critère success (contrat section 4 — 4 conditions cumulatives)
 

@@ -9,15 +9,18 @@ Hard stop automatique : **60h** (contrat section 5).
 | 2 | 2026-06-10 | Fix `metrics.sharpe()` epsilon tolerance (std < 1e-12) pour test_sharpe_constant_returns_is_inf_or_nan | 0.25 | 6.25 |
 | 3 | 2026-06-10 | Fix Makefile cross-platform venv path (Windows Scripts/ vs Linux bin/) | 0.25 | 6.5 |
 | 4 | 2026-06-10 | Fix Makefile ifeq indent (TAB → 4 spaces lignes 4 et 6, VENV_BIN restait vide) | 0.16 | 6.66 |
+| 5 | 2026-06-10 | Archivage Phase 1 : `archives/phase1_verdict_2026-06-10.md`, update README verdict table, tag git `phase1-stop-learning-2026-06-10` | 0.34 | 7.00 |
 
-## Phase 1.B — TODO (prochaine session)
+## Phase 1 — BOUCLÉE (2026-06-10)
 
-- [ ] Chef lance `make install` puis `make refresh-data` (fetch S&P 500 réel)
-- [ ] Chef lance `make test` puis `make coverage` (vérifier ≥70%)
-- [ ] Chef lance `make backtest` (production des verdicts + charts)
-- [ ] Audit Claude sur résultats verdict.md
-- [ ] Selon spread Sharpe : STOP / HOLD / GO Phase 2 ACO
-- [ ] Documenter SHA256 cache parquet dans README après 1er download
+- [x] Chef lance `make install` puis `make refresh-data` (fetch S&P 500 réel)
+- [x] Chef lance `make test` puis `make coverage`
+- [x] Chef lance `make backtest` (verdicts + charts produits)
+- [x] Audit Claude sur résultats verdict.md
+- [x] Décision T3 : **STOP_LEARNING** (Sharpe spread +0.18 ∈ [0.1, 0.2])
+- [x] SHA256 cache parquet documenté : `2f81e7ef6357f58e2e79f257ffb1525f47550a705b58f5b41c52a10c26e8e5e3`
+
+**Budget final : 7h / 40h cumulé (82.5% économie). Phase 2 ACO non lancée.**
 
 ## Notes
 
