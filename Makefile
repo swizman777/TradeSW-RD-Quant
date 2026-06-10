@@ -1,9 +1,9 @@
 .PHONY: install backtest test lint format report verdict clean coverage
 
 ifeq ($(OS),Windows_NT)
-	VENV_BIN := .venv/Scripts
+    VENV_BIN := .venv/Scripts
 else
-	VENV_BIN := .venv/bin
+    VENV_BIN := .venv/bin
 endif
 PYTHON := $(VENV_BIN)/python
 PIP := $(VENV_BIN)/pip
