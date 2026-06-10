@@ -1,0 +1,43 @@
+name: Mandate Scope Guard
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+
+jobs:
+  scope-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Determine changed files
+        id: changed
+        run: |
+          set -euo pipefail
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            BASE_SHA="${{ github.event.pull_request.base.sha }}"
+            HEAD_SHA="${{ github.event.pull_request.head.sha }}"
+            git diff --name-only "$BASE_SHA" "$HEAD_SHA" > /tmp/changed.txt
+          else
+            # push event
+            BEFORE="${{ github.event.before }}"
+            AFTER="${{ github.sha }}"
+            # Si "before" est all-zero (premier push sur la branche), on diff contre l'arbre vide
+            if [ "$BEFORE" = "0000000000000000000000000000000000000000" ] || [ -z "$BEFORE" ]; then
+              git ls-tree -r --name-only "$AFTER" > /tmp/changed.txt
+            else
+              git diff --name-only "$BEFORE" "$AFTER" > /tmp/changed.txt || \
+                git ls-tree -r --name-only "$AFTER" > /tmp/changed.txt
+            fi
+          fi
+          echo "----- changed files -----"
+          cat /tmp/changed.txt
+          echo "-------------------------"
+
+      - name: Check no out-of-scope paths
+        run: |
+          bash scripts/hooks/check_mandate_scope.sh < /tmp/changed.txt

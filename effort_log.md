@@ -10,6 +10,11 @@ Hard stop automatique : **60h** (contrat section 5).
 | 3 | 2026-06-10 | Fix Makefile cross-platform venv path (Windows Scripts/ vs Linux bin/) | 0.25 | 6.5 |
 | 4 | 2026-06-10 | Fix Makefile ifeq indent (TAB → 4 spaces lignes 4 et 6, VENV_BIN restait vide) | 0.16 | 6.66 |
 | 5 | 2026-06-10 | Archivage Phase 1 : `archives/phase1_verdict_2026-06-10.md`, update README verdict table, tag git `phase1-stop-learning-2026-06-10` | 0.34 | 7.00 |
+| 6 | 2026-06-10 | Phase 0 anti-dérive : `MANDATE_ECONOPHYSIQUE.md` immuable + hook `scripts/hooks/check_mandate_scope.sh` + `.pre-commit-config.yaml` + CI `.github/workflows/mandate_guard.yml` + section "Mandate immuable" README | 0.5 | 7.5 |
+
+> Note budget : les 7.5 h cumulées ici concernent **Phase 1' GARCH** (budget 40 h max).
+> Phase 2' (Hurst + Transfer entropy + ETAS) ouvrira son propre budget ~205 h cumulées max
+> (voir `MANDATE_ECONOPHYSIQUE.md` section 8).
 
 ## Phase 1 — BOUCLÉE (2026-06-10)
 

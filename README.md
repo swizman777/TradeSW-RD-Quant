@@ -3,6 +3,18 @@
 > R&D isolé du repo TradeSW production. **AUCUN import croisé**, .venv dédié, pas de symlink.
 > Mandate Chef Swizman du 2026-06-09 (validation 3T : T1 Claude GO, T2 Codex GO, T3 Gemini HOLD conditionnel).
 
+## Mandate immuable
+
+Le périmètre complet de ce repo est fixé par **[`MANDATE_ECONOPHYSIQUE.md`](MANDATE_ECONOPHYSIQUE.md)** (créé 2026-06-10, immuable hors annexes 3T datées).
+
+Résumé court :
+- **Objet** : tester si des outils mathématiques venant d'autres domaines scientifiques (hydrologie, sismologie, théorie de l'info, géophysique, magnétisme) caractérisent des régimes de marché mieux que les indicateurs financiers classiques.
+- **TOP 5 modèles retenus** : Hurst exponent, Transfer entropy, ETAS Hawkes, LPPL Sornette, Ising mean-field.
+- **Hors scope** : DCA, Bogle, exécution broker (T212/IBKR/Binance), autonomie. Toute introduction de tels modules est refusée mécaniquement par `scripts/hooks/check_mandate_scope.sh` (pré-commit) et le workflow `.github/workflows/mandate_guard.yml` (CI).
+- **Activation locale** : `pip install pre-commit && pre-commit install`.
+
+Tout commit / push touchant un path hors WHITELIST est refusé. Override uniquement via `git commit --no-verify` + justification + notification Chef (audit a posteriori).
+
 ## Budget
 
 - **40 heures MAX cumulées** (effort_log.md fait foi).

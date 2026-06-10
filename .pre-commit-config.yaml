@@ -1,0 +1,13 @@
+# Pre-commit hooks for TradeSW-RD-Quant.
+# Activation locale : pip install pre-commit && pre-commit install
+# Voir MANDATE_ECONOPHYSIQUE.md section 7 (garde-fous mécaniques).
+repos:
+  - repo: local
+    hooks:
+      - id: check-mandate-scope
+        name: Check MANDATE_ECONOPHYSIQUE scope
+        entry: bash scripts/hooks/check_mandate_scope.sh
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [pre-commit]
