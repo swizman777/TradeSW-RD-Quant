@@ -1,30 +1,41 @@
 .PHONY: install backtest test lint format report verdict clean coverage
 
+ifeq ($(OS),Windows_NT)
+	VENV_BIN := .venv/Scripts
+else
+	VENV_BIN := .venv/bin
+endif
+PYTHON := $(VENV_BIN)/python
+PIP := $(VENV_BIN)/pip
+PYTEST := $(VENV_BIN)/pytest
+RUFF := $(VENV_BIN)/ruff
+MYPY := $(VENV_BIN)/mypy
+
 install:
 	python -m venv .venv
-	.venv/Scripts/pip install -e ".[dev]"
+	$(PIP) install -e ".[dev]"
 
 backtest:
-	.venv/Scripts/python scripts/run_backtest.py
+	$(PYTHON) scripts/run_backtest.py
 
 refresh-data:
-	.venv/Scripts/python scripts/refresh_data.py
+	$(PYTHON) scripts/refresh_data.py
 
 test:
-	.venv/Scripts/pytest tests/ -v
+	$(PYTEST) tests/ -v
 
 coverage:
-	.venv/Scripts/pytest tests/ --cov=src --cov-report=term-missing --cov-report=html
+	$(PYTEST) tests/ --cov=src --cov-report=term-missing --cov-report=html
 
 lint:
-	.venv/Scripts/ruff check src/ tests/ scripts/
-	.venv/Scripts/mypy src/
+	$(RUFF) check src/ tests/ scripts/
+	$(MYPY) src/
 
 format:
-	.venv/Scripts/ruff format src/ tests/ scripts/
+	$(RUFF) format src/ tests/ scripts/
 
 report:
-	.venv/Scripts/python -c "from src.reporting import generate_verdict; generate_verdict()"
+	$(PYTHON) -c "from src.reporting import generate_verdict; generate_verdict()"
 
 clean:
 	rm -rf .venv data/*.parquet reports/*.png reports/*.html .pytest_cache .mypy_cache .ruff_cache .coverage htmlcov

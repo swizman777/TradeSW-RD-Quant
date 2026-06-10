@@ -7,6 +7,7 @@ Hard stop automatique : **60h** (contrat section 5).
 |---|---|---|---|---|
 | 1 | 2026-06-10 | Bootstrap repo (Phase 1.A) : structure, pyproject, .gitignore, Makefile, BUDGET_DEADLINE, 6 modules src/ (ingestion, garch_model, vol_targeting, backtest_engine, metrics, reporting), 2 scripts CLI, 8 fichiers de tests pytest, README, effort_log | ~6 | 6 |
 | 2 | 2026-06-10 | Fix `metrics.sharpe()` epsilon tolerance (std < 1e-12) pour test_sharpe_constant_returns_is_inf_or_nan | 0.25 | 6.25 |
+| 3 | 2026-06-10 | Fix Makefile cross-platform venv path (Windows Scripts/ vs Linux bin/) | 0.25 | 6.5 |
 
 ## Phase 1.B — TODO (prochaine session)
 
