@@ -17,7 +17,7 @@ def sharpe(pnl: pd.Series) -> float:
     if len(pnl) < 2:
         return float("nan")
     std = pnl.std(ddof=1)
-    if std == 0 or not np.isfinite(std):
+    if std < 1e-12 or not np.isfinite(std):
         return float("nan")
     return float(pnl.mean() / std * np.sqrt(TRADING_DAYS))
 
