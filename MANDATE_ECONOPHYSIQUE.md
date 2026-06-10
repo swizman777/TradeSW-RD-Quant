@@ -198,4 +198,62 @@ doit être **refusé** par le hook. Si malgré tout un Dev-Agent ou agent IA ess
 
 ## Annexes (à dater si ajoutées plus tard)
 
-*(aucune annexe à date de création — ce bloc reste vide jusqu'à ajout signé 3T)*
+*(annexes datées ci-dessous, signées 3T)*
+
+---
+
+## Annexe A — Corrections Phase 0.5 (2026-06-10)
+
+Suite 4 collégialités 3T (12 audits indépendants), corrections suivantes :
+
+### A.1 RÉDUCTION TOP 5 → TOP 3
+- **Maintenus** : Hurst (Mandelbrot 1972), Transfer Entropy (Schreiber 2000), **Hawkes finance-native** (Bacry-Muzy 2013) [substitue ETAS sismologie]
+- **DIFFÉRÉS** Phase 2'' conditionnels : LPPL Sornette, Ising mean-field
+- **Raison** : biais LLM-popular, redondance ETAS↔LPPL, probabilité edge revisée 12-18%
+
+### A.2 BONFERRONI multi-tests
+- Seuil Sharpe spread requis : **+0.45** (pas +0.30)
+- Correction : α=0.05 / 3 tests = 0.0167 par modèle
+- Alternative : seuil AUC ≥ 0.60 (pas 0.55)
+
+### A.3 Métriques harmonisées obligatoires (comparables cross-model)
+1. Information Coefficient : `IC = corr(signal_t, ret_{t+h})`
+2. Sharpe net de coûts (slippage 5bps explicite + fees)
+3. AIC (parsimony)
+4. Diebold-Mariano test vs buy-hold
+5. Bootstrap 1000x CI sur métriques
+
+### A.4 Pré-engagement règle d'arrêt agrégée
+> Si **<2 modèles TOP 3** passent les critères A.2+A.3 sur les 2 sous-périodes, **KILL famille econophysique entière**. Ne pas ressortir 4ème/5ème modèle (sunk cost fallacy).
+
+### A.5 Hypothèse économique obligatoire par modèle
+Avant implémentation, répondre par écrit :
+> "Pourquoi le marché laisserait cet edge sur la table en 2026 ? Quel hedge fund teste/utilise ce modèle aujourd'hui ?"
+
+Si réponse = "personne" → SUSPECT, pas prometteur.
+
+### A.6 Plan C : flat 2 modèles d'abord
+- Phase 2.A : Hurst flat (30h, lib `nolds` confirmée Py3.13 OK)
+- Phase 2.B : Transfer Entropy flat (35h, lib `IDTxl` ou `copent` — pas `pyinform` mort)
+- **Gate** : si edge mesurable sur ≥1 modèle → refactor BaseForecaster Phase 2'' justifié
+- Sinon : abandon propre, économise 140h
+
+### A.7 Section HORS-SCOPE par exemple (pédagogique)
+Sont HORS-SCOPE du repo TradeSW-RD-Quant :
+1. Sélection ETF à acheter (DCA, Bogle, allocation)
+2. Automatisation ordre broker (T212, IBKR, Binance, Kraken)
+3. Stratégie de couverture (hedge fund-style, options, futures)
+4. Multi-asset portfolio optimization
+5. Exécution live ou paper-trading
+6. Sentiment analysis ou news NLP trading
+7. Intraday HFT
+8. Leverage / margin trading
+9. Options pricing
+10. Dashboard / reporting opérationnel
+
+Tout fichier matching ces patterns sera REJETÉ par hook + CI.
+
+### A.8 Signature Phase 0.5
+Date : 2026-06-10 (annexe datée)
+Auteur : Chef Swizman + consensus 12 audits 3T
+

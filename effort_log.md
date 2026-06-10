@@ -11,6 +11,10 @@ Hard stop automatique : **60h** (contrat section 5).
 | 4 | 2026-06-10 | Fix Makefile ifeq indent (TAB → 4 spaces lignes 4 et 6, VENV_BIN restait vide) | 0.16 | 6.66 |
 | 5 | 2026-06-10 | Archivage Phase 1 : `archives/phase1_verdict_2026-06-10.md`, update README verdict table, tag git `phase1-stop-learning-2026-06-10` | 0.34 | 7.00 |
 | 6 | 2026-06-10 | Phase 0 anti-dérive : `MANDATE_ECONOPHYSIQUE.md` immuable + hook `scripts/hooks/check_mandate_scope.sh` + `.pre-commit-config.yaml` + CI `.github/workflows/mandate_guard.yml` + section "Mandate immuable" README | 0.5 | 7.5 |
+| 7 | 2026-06-10 | Phase 0.5 corrections post 4×3T (12 audits) : MANDATE Annexe A (A.1 TOP 3 / A.2 Bonferroni / A.3 métriques harmonisées / A.4 règle arrêt agrégée / A.5 hypothèse économique / A.6 Plan C flat / A.7 HORS-SCOPE / A.8 signature) | 2.5 | 10.0 |
+| 8 | 2026-06-10 | Phase 0.5 hook Python : `scripts/hooks/check_mandate_scope.py` (~190 LoC) + `config/mandate_scope.yml` allow/deny externalisé + tests `tests/hooks/test_check_mandate_scope.py` (13 cas, all passing) + legacy bash archivé `archive/hooks_legacy/` | 3.0 | 13.0 |
+| 9 | 2026-06-10 | Phase 0.5 governance : `.github/CODEOWNERS` + `.github/pull_request_template.md` + `docs/BRANCH_PROTECTION_SETUP.md` + update `.pre-commit-config.yaml` + CI `mandate_guard.yml` (matrix ubuntu+windows, GITHUB_ACTOR, tests/hooks/ step) | 1.5 | 14.5 |
+| 10 | 2026-06-10 | Phase 0.5 symétrie : repo TradeSW `MANDATE_TRADESW.md` + `scripts/hooks/check_tradesw_scope.py` + `config/tradesw_scope.yml` miroir | 2.0 | 16.5 |
 
 > Note budget : les 7.5 h cumulées ici concernent **Phase 1' GARCH** (budget 40 h max).
 > Phase 2' (Hurst + Transfer entropy + ETAS) ouvrira son propre budget ~205 h cumulées max

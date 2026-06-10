@@ -1,0 +1,69 @@
+# MANDATE_ECONOPHYSIQUE scope guard configuration.
+# Used by scripts/hooks/check_mandate_scope.py (Phase 0.5).
+#
+# Semantics:
+#  - `allow_regex` : if a changed file matches ANY of these regex, it is ALLOWED.
+#  - `deny_regex`  : if a changed file matches ANY of these regex, it is REJECTED
+#                    (even if it also matches an allow_regex). deny wins.
+#  - if a file matches neither allow nor deny => REJECT (default-deny).
+#
+# Override : `git commit --no-verify` (audited a posteriori).
+
+allow_regex:
+  # --- R&D économphysique source tree -------------------------------------
+  - '^src/[^/]+\.py$'                              # src/ingestion.py, src/garch_model.py, ...
+  - '^src/(models|data|backtest|analytics|cli)/'   # Phase 2' architecture
+  - '^tests/'                                      # all tests including tests/hooks/
+  - '^notebooks/'
+  - '^data/'
+  - '^reports/'
+  - '^archives/'
+
+  # --- top-level repo files ----------------------------------------------
+  - '^MANDATE_ECONOPHYSIQUE\.md$'
+  - '^README\.md$'
+  - '^pyproject\.toml$'
+  - '^Makefile$'
+  - '^\.gitignore$'
+  - '^\.python-version$'
+  - '^BUDGET_DEADLINE\.txt$'
+  - '^effort_log\.md$'
+
+  # --- repo tooling ------------------------------------------------------
+  - '^scripts/.*\.(sh|py)$'
+  - '^scripts/hooks/'
+  - '^\.pre-commit-config\.yaml$'
+  - '^\.github/'
+  - '^config/mandate_scope\.yml$'
+  - '^\.github/CODEOWNERS$'
+  - '^\.github/pull_request_template\.md$'
+  - '^docs/BRANCH_PROTECTION_SETUP\.md$'
+  - '^docs/'                                       # other repo docs
+  - '^archive/hooks_legacy/'                       # legacy bash hook kept for traceability
+
+# Deny rules — Annexe A.7 (pedagogical HORS-SCOPE).
+# These wins over allow_regex. Patterns are case-insensitive.
+deny_regex:
+  # 1. ETF / DCA / Bogle
+  - '(?i)(^|/)(dca|bogle)_'
+  - '(?i)(^|/)(dca|bogle)/'
+  # 2. Broker automation
+  - '(?i)(^|/)(t212|ibkr|binance|kraken|alpaca|coinbase)_'
+  - '(?i)broker/'
+  # 3. Hedging / options / futures execution
+  - '(?i)(^|/)(hedge|options_exec|futures_exec)_'
+  # 4. Portfolio optimization (multi-asset live)
+  - '(?i)(^|/)portfolio_(opt|optimization|live)_'
+  # 5. Live / paper trading
+  - '(?i)(^|/)(live_trading|paper_trading)/'
+  # 6. NLP / sentiment trading
+  - '(?i)(^|/)(sentiment_trade|news_trade)_'
+  # 7. Intraday HFT
+  - '(?i)(^|/)(hft|intraday_hft)_'
+  # 8. Leverage / margin
+  - '(?i)(^|/)(leverage|margin)_trading'
+  # 9. Options pricing modules (production)
+  - '(?i)(^|/)options_pricing_live'
+  # 10. Operational dashboard / reporting
+  - '(?i)(^|/)dashboard/'
+  - '(?i)(^|/)risk_manager_'

@@ -1,0 +1,9 @@
+# CODEOWNERS — TradeSW-RD-Quant (Phase 0.5)
+# Reference: MANDATE_ECONOPHYSIQUE.md Annexe A.
+# All sensitive paths require Chef Swizman approval before merge.
+
+MANDATE_ECONOPHYSIQUE.md          @swizman777
+.github/                          @swizman777
+scripts/hooks/                    @swizman777
+config/mandate_scope.yml          @swizman777
+archive/hooks_legacy/             @swizman777

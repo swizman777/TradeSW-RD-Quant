@@ -7,37 +7,52 @@ on:
 
 jobs:
   scope-check:
-    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    env:
+      GITHUB_ACTOR: ${{ github.actor }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Determine changed files
-        id: changed
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Install pyyaml
+        run: pip install --upgrade pip pyyaml pytest
+
+      - name: Run hook unit tests
+        run: pytest tests/hooks/ -v --no-cov
+
+      - name: Run scope guard (PR mode)
+        if: github.event_name == 'pull_request'
+        shell: bash
         run: |
           set -euo pipefail
-          if [ "${{ github.event_name }}" = "pull_request" ]; then
-            BASE_SHA="${{ github.event.pull_request.base.sha }}"
-            HEAD_SHA="${{ github.event.pull_request.head.sha }}"
-            git diff --name-only "$BASE_SHA" "$HEAD_SHA" > /tmp/changed.txt
-          else
-            # push event
-            BEFORE="${{ github.event.before }}"
-            AFTER="${{ github.sha }}"
-            # Si "before" est all-zero (premier push sur la branche), on diff contre l'arbre vide
-            if [ "$BEFORE" = "0000000000000000000000000000000000000000" ] || [ -z "$BEFORE" ]; then
-              git ls-tree -r --name-only "$AFTER" > /tmp/changed.txt
-            else
-              git diff --name-only "$BEFORE" "$AFTER" > /tmp/changed.txt || \
-                git ls-tree -r --name-only "$AFTER" > /tmp/changed.txt
-            fi
-          fi
-          echo "----- changed files -----"
-          cat /tmp/changed.txt
-          echo "-------------------------"
+          BASE_SHA="${{ github.event.pull_request.base.sha }}"
+          HEAD_SHA="${{ github.event.pull_request.head.sha }}"
+          python scripts/hooks/check_mandate_scope.py \
+            --diff-range "${BASE_SHA}...${HEAD_SHA}"
 
-      - name: Check no out-of-scope paths
+      - name: Run scope guard (push mode)
+        if: github.event_name == 'push'
+        shell: bash
         run: |
-          bash scripts/hooks/check_mandate_scope.sh < /tmp/changed.txt
+          set -euo pipefail
+          BEFORE="${{ github.event.before }}"
+          AFTER="${{ github.sha }}"
+          if [ "$BEFORE" = "0000000000000000000000000000000000000000" ] || [ -z "$BEFORE" ]; then
+            git ls-tree -r --name-only -z "$AFTER" | \
+              xargs -0 -I{} echo "{}" > /tmp/changed.txt
+            python scripts/hooks/check_mandate_scope.py --from-stdin < /tmp/changed.txt
+          else
+            python scripts/hooks/check_mandate_scope.py \
+              --diff-range "${BEFORE}..${AFTER}"
+          fi
