@@ -1,7 +1,33 @@
-# TradeSW-RD-Quant — Phase 1 GARCH(1,1) overlay backtest
+# TradeSW-RD-Quant — Programme R&D économphysique
 
 > R&D isolé du repo TradeSW production. **AUCUN import croisé**, .venv dédié, pas de symlink.
 > Mandate Chef Swizman du 2026-06-09 (validation 3T : T1 Claude GO, T2 Codex GO, T3 Gemini HOLD conditionnel).
+
+## Status final — Programme R&D TERMINÉ 2026-06-11
+
+**Décision Chef** : `KILL_FAMILY_ECONOPHYSIQUE` actée 2026-06-11.
+
+| Phase | Modèle | Verdict | Date |
+|---|---|---|---|
+| Phase 1 | GARCH(1,1) | `STOP_LEARNING` (Sharpe spread +0.18 < +0.30) | 2026-06-10 |
+| Phase 2.A | Hurst exponent (DFA) | `KILL_HURST` (Sharpe spread -0.754, 5× pire seuil +0.45) | 2026-06-11 |
+| Phase 2.B | Transfer Entropy | **NON lancée** (économie 35h) | — |
+| Phase 2'' | Hawkes refactor | **NON lancée** (économie 40h) | — |
+| Phase 3' | LPPL + Ising | **NON lancées** (économie 40h) | — |
+
+Programme R&D économphysique total : **29.5h consommées**, **115h économisées**.
+
+**Repo passe en mode MAINTENANCE ONLY** : pas de nouvelles features, pas de nouveau modèle sans nouveau mandate signé 3T.
+
+Détails complets :
+- `archives/phase1_verdict_2026-06-10.md` — Phase 1 GARCH STOP_LEARNING
+- `archives/phase2a_verdict_hurst_2026-06-11.md` — Phase 2.A Hurst KILL + KILL_FAMILY actée
+- `MANDATE_ECONOPHYSIQUE.md` Annexe B — décision Chef 2026-06-11
+- Tag git : `phase2a-kill-family-econophysique-2026-06-11`
+
+Recommandation post-KILL : pivot DCA T212 sous mandate **TradeSW PROD** (`MANDATE_TRADESW.md`), pas sous ce mandate économphysique.
+
+---
 
 ## Mandate immuable
 
@@ -65,7 +91,7 @@ Outputs principaux :
 - `reports/equity_curve.png`
 - `reports/vol_pred_vs_realized.png`
 
-## Verdict (2026-06-10 — BOUCLÉ)
+## Verdict Phase 1 GARCH(1,1) (2026-06-10 — BOUCLÉ)
 
 | Métrique | Full 2019-2024 | 2019-2021 | 2022-2024 |
 |---|---|---|---|
@@ -78,9 +104,25 @@ Outputs principaux :
 | Hit rate vol | 0.499 | 0.516 | 0.487 |
 | **4/4 ?** | 2/4 | 3/4 | 2/4 |
 
-**Final decision: `STOP_LEARNING` — voir `archives/phase1_verdict_2026-06-10.md`.**
+**Décision Phase 1 : `STOP_LEARNING` — voir `archives/phase1_verdict_2026-06-10.md`.**
 
-GARCH(1,1) validé comme **risk overlay** (DD ratio 0.42, réduction 58%) mais **pas générateur alpha** (Sharpe spread +0.18 < seuil +0.30). Phase 2 ACO **non lancée** (critère arrêt T3 contrat section 5). Pivot DCA T212 ETF en priorité. Budget consommé : 7h / 40h (82.5% économie).
+GARCH(1,1) validé comme **risk overlay** (DD ratio 0.42, réduction 58%) mais **pas générateur alpha** (Sharpe spread +0.18 < seuil +0.30). Budget consommé : 7h / 40h (82.5% économie).
+
+## Verdict Phase 2.A Hurst (2026-06-11 — BOUCLÉ + KILL famille)
+
+| Métrique | Full 2019-2024 | 2019-2021 (A) | 2022-2024 (B) |
+|---|---|---|---|
+| Sharpe spread vs B&H | **-0.754** | NaN | **-0.459** |
+| Seuil Bonferroni requis | +0.45 | +0.45 | +0.45 |
+| Écart au seuil | **-1.204** | — | -0.909 |
+| DM p-value vs B&H | < 0.0001 | < 0.0001 | < 0.0001 |
+| IC bootstrap CI 95% | quasi nul | quasi nul | quasi nul |
+
+**Décision finale : `KILL_FAMILY_ECONOPHYSIQUE` — voir `archives/phase2a_verdict_hurst_2026-06-11.md`.**
+
+Hurst Sharpe spread -0.754 = **5× pire** que seuil Bonferroni +0.45. DM p<0.0001 = statistiquement significatif NÉGATIF vs B&H. IC quasi nul = aucun pouvoir prédictif. Chef Swizman acte KILL famille immédiat (vs règle A.4 stricte qui aurait demandé 2 modèles testés) car Hurst est le modèle le plus mature de la TOP 3 et son échec catastrophique signe la faiblesse du cadre théorique économphysique appliqué à equity index daily.
+
+Phase 2.B Transfer Entropy + Phase 2'' Hawkes refactor + Phase 3' LPPL/Ising **NON lancées** : économie 115h. Phase 2.A budget consommé : 13h / 30h hardcode.
 
 ## Critère success (contrat section 4 — 4 conditions cumulatives)
 

@@ -257,3 +257,61 @@ Tout fichier matching ces patterns sera REJETÉ par hook + CI.
 Date : 2026-06-10 (annexe datée)
 Auteur : Chef Swizman + consensus 12 audits 3T
 
+---
+
+## Annexe B — KILL_FAMILY_ECONOPHYSIQUE actée (2026-06-11)
+
+### Verdict final programme R&D
+
+Le programme R&D économphysique est TERMINÉ. Décision Chef Swizman 2026-06-11.
+
+### Résultats Phase 2.A Hurst (commit 03ee7eb)
+
+| Métrique | Full 2019-24 | Sous-période A 2019-21 | Sous-période B 2022-24 |
+|---|---|---|---|
+| Sharpe spread vs B&H | **-0.754** ❌ | NaN | **-0.459** ❌ |
+| DM p-value vs B&H | < 0.0001 | < 0.0001 | < 0.0001 |
+| IC bootstrap CI 95% | quasi nul | quasi nul | quasi nul |
+| Seuil Bonferroni requis | +0.45 | — | — |
+| **Écart au seuil** | **-1.204** | — | — |
+
+### Justification KILL famille (vs règle A.4 stricte)
+
+Règle A.4 stipule "<2 modèles TOP 3 passent → KILL famille". Strictement on n'a testé que Hurst (1/3). Mais :
+- Sharpe spread Hurst -0.754 = **5× pire** que seuil +0.45 (catastrophique)
+- DM statistiquement significatif NÉGATIF (Hurst pire que B&H avec p<0.0001)
+- IC quasi nul = aucun pouvoir prédictif Hurst
+- Hurst est le modèle LE PLUS MATURE et bien étudié de la TOP 3 → si lui échoue catastrophiquement, Transfer Entropy et Hawkes ont quasi-zéro chance de sauver la famille
+- Économie 115h (Phase 2.B 35h + Phase 2'' 40h + 2 modèles backup 40h) confirme rationalité décision
+
+### Prédiction T3 Gemini Senior validée empiriquement (2026-06-10)
+
+> "Le verdict TOP 5 est LLM-popular 70% / scientifique 30%. RenTech n'utilise PAS ces modèles. Probabilité edge net réel 12-18%."
+
+**Résultat observé : pas dans 12-18% (edge), mais dans le 82-88% (échec)**. T3 senior confirmé sur 2 modèles indépendants (GARCH STOP_LEARNING + Hurst KILL).
+
+### Effort cumulé Phase R&D économphysique
+
+| Phase | Heures consommées |
+|---|---|
+| Phase 1 GARCH backtest | 7h |
+| Phase 0 mandate v1 + hooks bash | 0.5h |
+| Phase 0.5 Harmonisation v2 + hardening | 9h |
+| Phase 2.A Hurst (code + audit + run + analyse) | 13h |
+| **TOTAL** | **29.5h** |
+| Économie post-KILL | 115h évitées |
+
+### Recommandation post-KILL
+
+Pivot DCA T212 sous mandate **TradeSW PROD** (`MANDATE_TRADESW.md` scope IN = exécution autonome multi-broker). PAS sous mandate économphysique (ce mandate reste immuable KILL).
+
+### Repo final
+
+- Tag `phase2a-kill-family-econophysique-2026-06-11` à poser
+- Archive `archives/phase2a_verdict_hurst_2026-06-11.md` à créer
+- README.md tableau verdict à mettre à jour avec décision finale
+- Repo passe en mode **MAINTENANCE ONLY** (pas de nouvelles features)
+
+### Signature 2026-06-11
+
+Chef Swizman + consensus 12 audits 3T précédents + verdict empirique Hurst.

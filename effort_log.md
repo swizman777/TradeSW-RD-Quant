@@ -57,18 +57,40 @@ Hard stop automatique au depassement -> STOP + audit Chef.
 | 15 | 2026-06-12 | Implementation `src/hurst_reporting.py` (~175 LoC) : `verdict_hurst.md` template (6 sections), Bonferroni +0.45 hardcode, decision binaire GO/STOP_LEARNING/KILL, charts equity + regime + bootstrap | 2.0 | 9.0 |
 | 16 | 2026-06-12 | CLI `scripts/run_hurst_backtest.py` (~50 LoC) + Makefile cible `backtest_hurst` + pyproject `nolds==0.6.3` + mypy override | 0.5 | 9.5 |
 | 17 | 2026-06-12 | Tests : `test_hurst_no_lookahead.py` (3 invariants CRITIQUES) + `test_hurst_model.py` (6 tests : fBm recovery, random walk, fallback, classification, regime_to_weight, frozen) + `test_hurst_metrics.py` (6 tests : IC perfect, IC anti-corr, IC NaN, Sharpe net < gross, bootstrap reproducible, DM identical) = 15 tests | 2.0 | 11.5 |
+| 18 | 2026-06-11 | Run VPS DEV `make backtest_hurst` (S&P 500 2019-2024) + audit verdict : Sharpe spread -0.754 full, NaN A, -0.459 B / DM p<0.0001 négatif / IC quasi nul. Décision Chef `KILL_HURST` puis `KILL_FAMILY_ECONOPHYSIQUE` (vs règle A.4 stricte, justifié par échec catastrophique 5× pire seuil Bonferroni) | 1.5 | 13.0 |
+| 19 | 2026-06-11 | Archivage final Phase 2.A + KILL_FAMILY : `archives/phase2a_verdict_hurst_2026-06-11.md` créé, MANDATE Annexe B ajoutée (ne touche pas v1 ni Annexe A), README.md status final + verdict Phase 2.A, effort_log final, tag `phase2a-kill-family-econophysique-2026-06-11` posé. Repo passe MAINTENANCE ONLY | 0.5 | 13.5 |
 
-**Budget consomme : 11.5h / 30h hardcode (38%). Marge restante : 18.5h pour run VPS + audit Claude + iterations debug.**
+**Budget Phase 2.A final : 13.5h / 30h hardcode (45%). Marge non utilisée : 16.5h (économisée).**
 
-## Phase 2.A — IMPL LIVRE (2026-06-12), VPS RUN A VENIR
+## Phase 2.A — BOUCLÉE (2026-06-11) + KILL_FAMILY_ECONOPHYSIQUE actée
 
 - [x] Code source `src/hurst_*.py` + tests
 - [x] Hypothese economique verbatim dans docstring `src/hurst_model.py` + `verdict_hurst.md`
 - [x] Bonferroni +0.45 hardcode dans `src/hurst_reporting.py`
 - [x] Reproductibilite bootstrap seed=42
 - [x] `pyproject.toml` nolds==0.6.3 ajoute
-- [ ] Chef : `git pull` sur VPS DEV puis `pip install -e ".[dev]"` (re-install nolds)
-- [ ] Chef : `make test` (15 tests Hurst, doit PASS - sauf fBm si DFA strict)
-- [ ] Chef : `make backtest_hurst` (run S&P 500 2019-2024)
-- [ ] Audit Claude sur `reports/verdict_hurst.md`
-- [ ] Decision Chef T3 : GO_PHASE_2B / STOP_LEARNING_HURST / KILL_FAMILY_ECONOPHYSIQUE
+- [x] Chef : `git pull` sur VPS DEV puis `pip install -e ".[dev]"` (re-install nolds)
+- [x] Chef : `make test` (15 tests Hurst PASS)
+- [x] Chef : `make backtest_hurst` (run S&P 500 2019-2024 OK)
+- [x] Audit Claude sur `reports/verdict_hurst.md` → Sharpe spread -0.754 catastrophique
+- [x] Decision Chef T3 : **`KILL_FAMILY_ECONOPHYSIQUE`** actée 2026-06-11
+- [x] Archive `archives/phase2a_verdict_hurst_2026-06-11.md` créée
+- [x] MANDATE Annexe B ajoutée (v1 + Annexe A INTOUCHÉES)
+- [x] Tag `phase2a-kill-family-econophysique-2026-06-11` posé
+
+---
+
+## Cumul final programme R&D économphysique
+
+| Phase | Heures | Verdict |
+|---|---|---|
+| Phase 1 GARCH(1,1) | 7.0 | STOP_LEARNING |
+| Phase 0 mandate v1 + hooks bash | 0.5 | — |
+| Phase 0.5 Harmonisation v2 + hardening (Annexe A) | 9.0 | — |
+| Phase 2.A Hurst (impl + run + analyse + archivage) | 13.5 | KILL_HURST → KILL_FAMILY |
+| **TOTAL R&D économphysique** | **30.0h** | Programme TERMINÉ |
+| Économies post-KILL (Phase 2.B + 2'' + 2 backup) | — | **115h évitées** |
+
+Repo passe en mode **MAINTENANCE ONLY** : pas de nouvelles features, pas de nouveau modèle sans nouveau mandate signé 3T.
+
+Recommandation Chef : pivot DCA T212 sous mandate **TradeSW PROD** (autre repo).
