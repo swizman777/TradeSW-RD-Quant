@@ -40,3 +40,35 @@ Hard stop automatique : **60h** (contrat section 5).
 - Frais 1 bps hardcodés dans `BacktestConfig.fees_bps`.
 - Vol target 10% hardcodé dans `vol_targeting.DEFAULT_VOL_TARGET`.
 - Train window 252 dans `BacktestConfig.train_window` (paramétrable).
+
+---
+
+# Effort Log Phase 2.A Hurst (DFA flat)
+
+Budget Phase 2.A : **30h MAX hardcode** (CONTRAT_CODEX_PHASE2A_HURST.md section 9).
+Hard stop automatique au depassement -> STOP + audit Chef.
+
+| Session | Date | Tache | Heures session | Cumul Phase 2.A |
+|---|---|---|---|---|
+| 11 | 2026-06-12 | Phase 2.A bootstrap FLAT : audit infra Phase 1 (ingestion / garch / backtest / metrics / reporting), verification hook scope guard accepte `src/hurst_*.py` + `tests/test_hurst_*.py`, lecture API `nolds.dfa()` (Py3.13 compat T2 Groupe A) | 1.0 | 1.0 |
+| 12 | 2026-06-12 | Implementation `src/hurst_model.py` (~135 LoC) : `HurstForecast` dataclass + `compute_hurst()` via `nolds.dfa()` + classification regime (>0.55 momentum, <0.45 mean_rev) + fallback MIN_WINDOW=200 + hypothese economique verbatim docstring | 2.0 | 3.0 |
+| 13 | 2026-06-12 | Implementation `src/hurst_backtest.py` (~145 LoC) : `walk_forward_hurst` (window=504, refit=5 hebdo, anti look-ahead assert) + `compute_pnl_hurst` (fees 1bps + slippage 5bps Annexe A.3, weight.shift(1)) | 2.0 | 5.0 |
+| 14 | 2026-06-12 | Implementation `src/hurst_metrics.py` (~145 LoC) : 5 metriques harmonisees (IC, Sharpe net, AIC, Diebold-Mariano, bootstrap 1000x CI seed=42) + `summarise_hurst()` | 2.0 | 7.0 |
+| 15 | 2026-06-12 | Implementation `src/hurst_reporting.py` (~175 LoC) : `verdict_hurst.md` template (6 sections), Bonferroni +0.45 hardcode, decision binaire GO/STOP_LEARNING/KILL, charts equity + regime + bootstrap | 2.0 | 9.0 |
+| 16 | 2026-06-12 | CLI `scripts/run_hurst_backtest.py` (~50 LoC) + Makefile cible `backtest_hurst` + pyproject `nolds==0.6.3` + mypy override | 0.5 | 9.5 |
+| 17 | 2026-06-12 | Tests : `test_hurst_no_lookahead.py` (3 invariants CRITIQUES) + `test_hurst_model.py` (6 tests : fBm recovery, random walk, fallback, classification, regime_to_weight, frozen) + `test_hurst_metrics.py` (6 tests : IC perfect, IC anti-corr, IC NaN, Sharpe net < gross, bootstrap reproducible, DM identical) = 15 tests | 2.0 | 11.5 |
+
+**Budget consomme : 11.5h / 30h hardcode (38%). Marge restante : 18.5h pour run VPS + audit Claude + iterations debug.**
+
+## Phase 2.A — IMPL LIVRE (2026-06-12), VPS RUN A VENIR
+
+- [x] Code source `src/hurst_*.py` + tests
+- [x] Hypothese economique verbatim dans docstring `src/hurst_model.py` + `verdict_hurst.md`
+- [x] Bonferroni +0.45 hardcode dans `src/hurst_reporting.py`
+- [x] Reproductibilite bootstrap seed=42
+- [x] `pyproject.toml` nolds==0.6.3 ajoute
+- [ ] Chef : `git pull` sur VPS DEV puis `pip install -e ".[dev]"` (re-install nolds)
+- [ ] Chef : `make test` (15 tests Hurst, doit PASS - sauf fBm si DFA strict)
+- [ ] Chef : `make backtest_hurst` (run S&P 500 2019-2024)
+- [ ] Audit Claude sur `reports/verdict_hurst.md`
+- [ ] Decision Chef T3 : GO_PHASE_2B / STOP_LEARNING_HURST / KILL_FAMILY_ECONOPHYSIQUE

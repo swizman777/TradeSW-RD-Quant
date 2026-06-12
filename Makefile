@@ -1,4 +1,4 @@
-.PHONY: install backtest test lint format report verdict clean coverage
+.PHONY: install backtest backtest_hurst test lint format report verdict clean coverage
 
 ifeq ($(OS),Windows_NT)
     VENV_BIN := .venv/Scripts
@@ -17,6 +17,9 @@ install:
 
 backtest:
 	$(PYTHON) scripts/run_backtest.py
+
+backtest_hurst:
+	$(PYTHON) scripts/run_hurst_backtest.py
 
 refresh-data:
 	$(PYTHON) scripts/refresh_data.py
